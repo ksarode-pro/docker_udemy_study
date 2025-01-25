@@ -1,0 +1,12 @@
+# Use the official Python image from Docker Hub as the base image
+FROM python
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the rest of your Python application code into the container
+COPY . /app
+
+# Set the default command to run the Python script (e.g., main.py)
+CMD ["python", "bmi.py"]
+ 
