@@ -1,0 +1,47 @@
+# Use .NET 8 SDK image for building the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+# Copy project files and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy the remaining application files
+COPY . ./
+
+# Publish code in release configuration and move published code in out folder
+RUN dotnet publish -c Release -o out
+
+# Use ASP.NET Core runtime for hosting
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copy build output from previous stage to /app/out folder
+COPY --from=build /app/out .
+
+# Expose port 8080
+EXPOSE 8080
+
+# Set entry point to run the API
+ENTRYPOINT ["dotnet", "dotnet_webapi_docker_k8s.dll"]
+
+#Build image
+#docker build -t "dotnet_webapi_docker_k8s:1" .
+
+#View image
+#docker images -a
+
+#Run and create container
+#docker run -d -p 5032:8080 --name dotnet_webapi_docker_k8s_app dotnet_webapi_docker_k8s:1
+
+#View container
+#docker ps -a
+
+#Stop container
+#docker stop dotnet_webapi_docker_k8s_app
+
+#remove container 
+#docker rm dotnet_webapi_docker_k8s_app
+
+#remove image
+#docker rmi dotnet_webapi_docker_k8s:1

@@ -1,2 +1,4 @@
 /dotnet_console_docker/bin
 /dotnet_console_docker/obj
+/dotnet_webapi_docker_k8s/bin
+/dotnet_webapi_docker_k8s/obj
